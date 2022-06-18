@@ -1,7 +1,7 @@
 """
   Input File
 
-  Read the input file and store on a list
+  Read the input file and store on a list.
 """
 
 import os
@@ -11,7 +11,7 @@ class InputFile(object):
   def __init__(self):
     self.param = []
 
-  def input(self, file_path):
+  def input_file(self, file_path):
     if os.path.isfile(file_path):
       file = open(file_path, 'r')
       self.param = file.readlines()
