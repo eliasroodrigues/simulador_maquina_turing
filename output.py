@@ -22,37 +22,54 @@ class Output(object):
     char = line[5]
     return char[1]
 
-  def move_cabecote(self, line, fita, direcao):
+  def move_cabecote(self, line, fita, moveX, moveXYZ):
     esquerda = line[4]
     cabecote = line[5]
     direita  = line[6]
 
+    # move X
+    if moveX == 'e':
+      self.direita  = cabecote[1] + direita
+      self.cabecote = '%s%s%s' % (cabecote[0], esquerda[len(esquerda) - 1], cabecote[2])
+      self.esquerda = esquerda[:len(esquerda) - 1]
+    elif moveX == 'd':
+      self.esquerda = esquerda + cabecote[1]
+      self.cabecote = '%s%s%s' % (cabecote[0], direita[0], cabecote[2])
+      self.direita  = direita[1:]
+
+    # move X, Y or Z
     if fita == 'X':
-      # move to left or right
-      if direcao == 'e':
+      if moveXYZ == 'e':
         self.direita  = cabecote[1] + direita
         self.cabecote = '%s%s%s' % (cabecote[0], esquerda[len(esquerda) - 1], cabecote[2])
         self.esquerda = esquerda[:len(esquerda) - 1]
-      elif direcao == 'd':
+      elif moveXYZ == 'd':
         self.esquerda  = esquerda + cabecote[1]
         self.cabecote  = '%s%s%s' % (cabecote[0], direita[0], cabecote[2])
         self.direita   = direita[1:]
     elif fita == 'Y':
-      self.fitaY += cabecote[1]
+      if moveXYZ == 'e':
+        self.fitaY = cabecote[1] + self.fitaY
+      elif moveXYZ == 'd':
+        self.fitaY += cabecote[1]
     elif fita == 'Z':
-      self.fitaZ += cabecote[1]
+      if moveXYZ == 'e':
+        self.fitaZ = cabecote[1] + self.fitaZ
+      elif moveXYZ == 'd':
+        self.fitaZ += cabecote[1]
 
     # create a new line
     return self.new_line(line[1], line[2], self.fita, self.esquerda, self.cabecote, self.direita, self.fitaY, self.fitaZ) 
 
-  def altera_cabecote(self, line, read, write):
-    if (read != '*') and (self.get_cabecote(line) != read):
+  def altera_cabecote(self, line, fita, read, write):
+    head = self.get_cabecote(line)
+    if read != '*' and head != read:
       print('Cabecote - Erro de Leitura!')
-      print('Cabecote(' + self.getCabecote(line) + ') - read(' + read + ')')
+      print('Cabecote(' + head + ') - read(' + read + ')')
       exit()
 
     cabecote = line[5]
-    if (write != '*'):
+    if write != '*':
       self.cabecote = '%s%s%s' % (cabecote[0], write, cabecote[2])
     return self.new_line(line[1], line[2], line[3], line[4], self.cabecote, line[6], line[7], line[8])
 
