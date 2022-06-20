@@ -109,9 +109,6 @@ class Machine(object):
 
       while True:
         finalizou = self.exec_bloco(self.bloco_atual, estado_pilha)
-
-        print(f'ESTOU: {finalizou}')
-
         self.cont_interacoes += 1
 
         if self.cont_interacoes == 1000:
@@ -155,7 +152,6 @@ class Machine(object):
         exit()
 
       for i in instrucoes:
-        print(i.split(), '-', self.regex.aplica_regex(i))
         # <estado atual> <fita atual> <simbolo atual> <movimento atual> -- <novo estado> <nova fita> <novo simbolo> <novo movimento>
         if self.regex.aplica_regex(i) == 'comando':          
           aliases = []
@@ -168,7 +164,7 @@ class Machine(object):
           moveXYZ = i.split()[8]
           fita = i.split()[6]
 
-          if cabecote == simbA or (simbA in aliases and cabecote in self.alias[simbA]) or simbA == '*':
+          if cabecote == simbA or simbA == '*' or (simbA in aliases and cabecote in self.alias[simbA]):
             # verifica o simbA
             if simbA in aliases:
               if cabecote in self.alias[simbA]:
@@ -179,7 +175,6 @@ class Machine(object):
               if cabecote in self.alias[simbB]:
                 simbB = cabecote
 
-            print(f'simbA: {simbA} - simbB: {simbB}')
             self.fitaX[2] = self.estado_atual
             self.fitaX = self.out_line.altera_cabecote(self.fitaX, fita, simbA, simbB)
             self.lista_de_prints.append(self.fitaX[0])
@@ -215,7 +210,5 @@ class Machine(object):
           for x in self.listaDePrints:
             print(x)
             exit()
-
-      print(self.fitaX[0])
 
     return None

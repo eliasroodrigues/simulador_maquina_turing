@@ -56,7 +56,6 @@ class simturing:
   # Execute based on the given arguments.
   lines_file = imp_file.input_file(path_file)
   prints = machine.run(palavra, head, lines_file)
-  print('#################### END RUN ####################')
 
   # resume mode
   if opcao == 'r':
@@ -72,7 +71,7 @@ class simturing:
       if cont != 0:
         print(p)
         cont -= 1
-        
+
     numSteps += steps
 
     # while (True):

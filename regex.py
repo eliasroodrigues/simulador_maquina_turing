@@ -19,7 +19,7 @@ class Regex(object):
     # special
     expC2 = r'^[\s|\t]*[0-9]{1,4}\s(aceita|rejeita|retorne|pare)'
     # aliases
-    expAl = r'^\${1}[a-z]*\s\={1}\s(\"[a-zA-Z0-9]*\")'
+    expAl = r'^\${1}[a-z]*\s\={1}\s(\"[a-zA-Z0-9\+\-\<\>\=]*\")'
 
     self.regB1 = re.compile(expB1)
     self.regB2 = re.compile(expB2)
