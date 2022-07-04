@@ -2,6 +2,8 @@
   Input Args File
 
   Get the arguments for the execution.
+
+  author: Elias Rodrigues, IFMG, 2022.
 """
 
 import argparse

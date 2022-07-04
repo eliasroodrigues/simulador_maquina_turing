@@ -2,6 +2,8 @@
   Regex File
 
   Regex to match the commands
+
+  author: Elias Rodrigues, IFMG, 2022.
 """
 
 import re
@@ -15,7 +17,7 @@ class Regex(object):
     # end of block
     expB3 = r'^[\s|\t]*fim[\s|\t]*[a-zA-Z0-9]*'
     # commands
-    expC1 = r'^[\s|\t]*[0-9]{1,4}\s[X-Z]{1}\s(\*|(\${1}[a-zA-Z]*)|([a-zA-Z0-9]*))\s[a-z]{1}\s\-{2}\s[0-9]{1,4}\s([X-Z]{1})\s(\*|(\${1}[a-zA-Z]*)|([a-zA-Z0-9]*))\s[a-z]{1}(\s\!?)'
+    expC1 = r'^[\s|\t]*[0-9]{1,4}\s[X-Z]{1}\s(\*|(\${1}[a-z]{1})|[a-zA-Z0-9]{1}|[\<\>\=\+\-]{1})\s[edi]{1}\s\-{2}\s[0-9]{1,4}\s([X-Z]{1})\s(\*|(\${1}[a-z]{1})|[a-zA-Z0-9]{1}|[\<\>\=\+\-]{1})\s[edi]{1}(\s\!?)'
     # special
     expC2 = r'^[\s|\t]*[0-9]{1,4}\s(aceita|rejeita|retorne|pare)'
     # aliases

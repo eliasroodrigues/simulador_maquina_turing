@@ -2,6 +2,8 @@
   Machine File
 
   The machine functionalities. 
+
+  author: Elias Rodrigues, IFMG, 2022.
 """
 
 from regex import Regex
@@ -15,13 +17,10 @@ class Machine(object):
     self.param_bloco = []
     self.blocos_cod = []
     self.estado_atual = ''
-    self.fita = ''
     self.lista_de_prints = []
     self.cont_interacoes = 0
     self.bloco_atual = None
     self.fitaX = []
-    self.fitaY = '_'
-    self.fitaZ = '_'
     self.alias = {}
     self.pilha_bloco = []
 
@@ -98,11 +97,10 @@ class Machine(object):
     self.blocos_cod = self.separa_cod_em_blocos(lines_file)
     self.bloco_atual = self.get_bloco('main')
     self.instrucao_atual = self.bloco_atual[1]
-    self.fitaX = self.out_line.new_line(self.bloco_atual[0], self.bloco_atual[1].split()[2], self.bloco_atual[2].split()[1], '', head, palavra, self.fitaY, self.fitaZ)
+    self.fitaX = self.out_line.new_line(self.bloco_atual[0], self.bloco_atual[1].split()[2], '', head, palavra, '', head, '_', '', head, '_')
     self.alias = self.get_alias(lines_file)
 
     self.cont_interacoes = 0
-
     if self.instrucao_atual is not None:
       instrucao_pilha = None
       estado_pilha = ''
@@ -115,7 +113,7 @@ class Machine(object):
           return None
 
         # stop the execution
-        if finalizou == 'pare' or finalizou == 'aceita':
+        if finalizou == 'pare' or finalizou == 'aceita' or finalizou == 'rejeita':
           break
         elif finalizou == 'retorne':
           instrucao_pilha = self.pilha_bloco.pop()
@@ -160,11 +158,14 @@ class Machine(object):
 
           simbA = i.split()[2]
           simbB = i.split()[7]
-          moveX = i.split()[3]
-          moveXYZ = i.split()[8]
-          fita = i.split()[6]
 
-          if cabecote == simbA or simbA == '*' or (simbA in aliases and cabecote in self.alias[simbA]):
+          move1 = i.split()[3]
+          move2 = i.split()[8]
+
+          fita1 = i.split()[1]
+          fita2 = i.split()[6]
+
+          if cabecote == simbA or cabecote == simbB or simbA == '*' or simbB == '*' or (simbA in aliases and cabecote in self.alias[simbA]) or simbB in ['<', '>', '='] or simbA in ['<', '>', '=']:
             # verifica o simbA
             if simbA in aliases:
               if cabecote in self.alias[simbA]:
@@ -175,10 +176,11 @@ class Machine(object):
               if cabecote in self.alias[simbB]:
                 simbB = cabecote
 
+            print(simbA, simbB)
             self.fitaX[2] = self.estado_atual
-            self.fitaX = self.out_line.altera_cabecote(self.fitaX, fita, simbA, simbB)
+            self.fitaX = self.out_line.altera_cabecote(self.fitaX, fita2, simbA, simbB)
             self.lista_de_prints.append(self.fitaX[0])
-            self.fitaX = self.out_line.move_cabecote(self.fitaX, fita, moveX, moveXYZ)
+            self.fitaX = self.out_line.move_cabecote(self.fitaX, fita1, move1, fita2, move2)
 
             novo_estado = i.split()[5]
             self.estado_atual = novo_estado
@@ -203,7 +205,7 @@ class Machine(object):
 
           if comando == 'retorne':
             return 'retorne'
-          elif comando == 'pare' or comando == 'aceita':
+          elif comando == 'pare' or comando == 'aceita' or comando == 'rejeita':
             return comando
 
         if sair is True:

@@ -1,18 +1,26 @@
-; copia o inteiro na fita X, fornecido na entrada, para as fitas Y e Z
+; operações aritméticas com + e -
 
-$n = "0123456789"
+$d = "0123456789"
 $s = "+-"
-$d = "<>="
 
+; checa validade da entrada
 bloco main 01
-  01 X $n d -- 01 X $n d
-  01 X $s i -- 04 X $s i
-  03 copiaX 04
-  04 aceita
-  05 rejeita
+  01 X $d e -- 02 X $d i
+  02 X $d i -- 03 X < d
+  03 X $d i -- 10 Z < d
+
+  10 valida 40
+  
+  40 aceita
+  50 rejeita
 fim main
 
-bloco copiaX 01
-  01 X $n i -- 03 Y $n d
-  03 X $n i -- 01 Z $n d
-fim copiaX
+; valida a entrada copiando ela pra fita Z
+bloco valida 1
+  01 X $d d -- 01 Z $d d
+  01 X $s d -- 01 Z $s d
+  01 X * d -- 01 Z * d
+  01 X = i -- 05 Z = i
+  
+  05 retorne
+fim valida

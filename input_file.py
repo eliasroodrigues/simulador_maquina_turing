@@ -2,6 +2,8 @@
   Input File
 
   Read the input file and store on a list.
+
+  author: Elias Rodrigues, IFMG, 2022.
 """
 
 import os

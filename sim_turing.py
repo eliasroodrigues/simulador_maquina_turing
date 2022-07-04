@@ -2,6 +2,8 @@
   Turing Machine Simulator
 
   The execution of the simulation.
+
+  author: Elias Rodrigues, IFMG, 2022.
 """
 
 import argparse
@@ -24,13 +26,15 @@ class simturing:
   print('Simulador de Máquina de Turing Suave ver 1.0\nDesenvolvido como trabalho prático para a disciplina de Teoria da Computação\nAutor Elias Rodrigues, IFMG - Formiga, 2022.\n')
 
   param_args = imp_args.inputs()
-  print(f'Entry arguments: {param_args}')
+  print(f'Entry arguments: {param_args}\n')
 
+  # default options
   opcao = 'r'
   steps = -1
   log_file = 'log.txt'
   head = '()'
 
+  # verify the arguments
   for p in param_args:
     if p[0] == 'r':
       opcao = p[0]
@@ -43,22 +47,32 @@ class simturing:
       opcao = p[0]
       log_file = p[1]
       path_file = p[2]
-  
+
   if param_args is None:
     print('Give the entry arguments.')
     exit()
 
   palavra = input('Entry word: ')
+  
   if palavra == '':
     print('No entry given...')
-    exit(1)
+    exit()
   
-  # Execute based on the given arguments.
+  # execute based on the given arguments.
   lines_file = imp_file.input_file(path_file)
+
   prints = machine.run(palavra, head, lines_file)
 
-  # resume mode
+  # execution modes
   if opcao == 'r':
+    for p in prints:
+      print(p)
+  elif opcao == 'd':
+    fileD = open(log_file, 'w')
+    fileD.write(opcao + '\n')
+    for p in prints:
+      fileD.write(p + '\n')
+    fileD.close()
     for p in prints:
       print(p)
   elif opcao == 's':
@@ -74,65 +88,52 @@ class simturing:
 
     numSteps += steps
 
-    # while (True):
-    #   op = input('\nForneça opção (-r, -v, -s) : ')
-    #   print(op)
-    #   if op != '':
-    #     opcao = op.split()
-    #     # print('opcao: '+op)
-    #     # executa e imprime apenas o final da fita
-    #     if opcao[0] == '-r':
-    #       # Executa a maquina
-    #       # prints = machine.run(palavra, head, lines_file)
-    #       if prints == None:
-    #         print('500 interações')
-    #       else:
-    #         print(prints.pop())
-    #     # executa e imprime passo a passo a fita
-    #     elif opcao[0] == '-v':
-    #       # prints = machine.run(palavra, head, lines_file)
-    #       if prints == None:
-    #         print('500 interações')
-    #       else:
-    #         for p in prints:
-    #           print(p)
-    #     # executa e imprime n passos da fita
-    #     elif (opcao[0] == '-s'):
-    #       # prints = machine.run(palavra, head, lines_file)
-    #       steps = int(opcao[1])
-    #       if steps > int(len(prints)):
-    #         steps = len(prints)-1
-    #       cont = steps
-    #       cont2 = 0
-    #       for p in prints:
-    #         if cont2 <= numSteps:
-    #           cont2 += 1
-    #         else:
-    #           # print('if not none -s')
-    #           if(cont != 0):
-    #             print(p)
-    #             cont -= 1
-    #       numSteps += steps
-    #     else:
-    #       exit(1)
-    #   else:
-    #     # print('op '+op)
-    #     # print('con '+str(cont))
-    #     # if len(opcao) > 1:
-    #     #   cont = int(opcao[1])
-    #     #   steps = cont
-    #     # else:
-    #     cont = steps
-    #     if steps > int(len(prints)):
-    #       steps = len(prints)-1
-    #     cont = steps
-    #     cont2 = 0
-    #     for p in prints:
-    #       if cont2 <= numSteps:
-    #         cont2 += 1
-    #       else:
-    #         # print('if not none -s')/
-    #         if(cont != 0):
-    #           print(p)
-    #           cont -= 1
-    #     numSteps += steps
+    while True:
+      op = input('\nForneça opção (-r, -s): ')
+
+      if op != '':
+        opcao = op.split()
+        
+        if opcao[0] == '-r':
+          for p in prints:
+              print(p)
+          exit()
+        elif opcao[0] == '-s':
+          steps = int(opcao[1])
+          
+          if steps > len(prints):
+            steps = len(prints) - 1
+          
+          cont = steps
+          cont2 = 0
+          
+          for p in prints:
+            if cont2 <= numSteps:
+              cont2 += 1
+            else:
+              if cont != 0:
+                print(p)
+                cont -= 1
+          numSteps += steps
+        else:
+          exit()
+      else:
+        cont = steps
+        
+        if steps > len(prints):
+          steps = len(prints) - 1
+        
+        cont = steps
+        cont2 = 0
+        
+        for p in prints:
+          if cont2 <= numSteps:
+            cont2 += 1
+          else:
+            if cont != 0:
+              print(p)
+              cont -= 1
+
+          exit()
+
+        numSteps += steps
