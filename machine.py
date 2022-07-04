@@ -119,8 +119,8 @@ class Machine(object):
           instrucao_pilha = self.pilha_bloco.pop()
           self.bloco_atual = self.get_bloco(instrucao_pilha[0])
           estado_pilha = instrucao_pilha[1]
-          if estado_pilha == 'pare' or finalizou == 'aceita':
-            break
+          if estado_pilha == 'pare' or finalizou == 'aceita' or finalizou == 'rejeita':
+             break
         else:
           self.bloco_atual = self.get_bloco(finalizou)
           estado_pilha = ''
@@ -165,7 +165,7 @@ class Machine(object):
           fita1 = i.split()[1]
           fita2 = i.split()[6]
 
-          if cabecote == simbA or cabecote == simbB or simbA == '*' or simbB == '*' or (simbA in aliases and cabecote in self.alias[simbA]) or simbB in ['<', '>', '='] or simbA in ['<', '>', '=']:
+          if cabecote == simbA or simbA == '*' or (simbA in aliases and cabecote in self.alias[simbA]):# or simbB in ['<', '>', '='] or simbA in ['<', '>', '=']:
             # verifica o simbA
             if simbA in aliases:
               if cabecote in self.alias[simbA]:
@@ -176,7 +176,8 @@ class Machine(object):
               if cabecote in self.alias[simbB]:
                 simbB = cabecote
 
-            print(simbA, simbB)
+            # print(cabecote, simbA, simbB)
+            
             self.fitaX[2] = self.estado_atual
             self.fitaX = self.out_line.altera_cabecote(self.fitaX, fita2, simbA, simbB)
             self.lista_de_prints.append(self.fitaX[0])

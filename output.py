@@ -103,8 +103,15 @@ class Output(object):
     return self.new_line(line[1], line[2], self.esquerdaX, self.cabecoteX, self.direitaX, self.esquerdaY, self.cabecoteY, self.direitaY, self.esquerdaZ, self.cabecoteZ, self.direitaZ) 
 
   def altera_cabecote(self, line, fita, read, write):
-    # head = self.get_cabecote(line, fita)
-    print(line, fita, read, write)
+    head = self.get_cabecote(line)
+    
+    # print(line, fita, read, write)
+
+    if read != '*' and head != read:
+      print('cabecoteX - Erro de Leitura!')
+      print('cabecoteX(' + head + ') - read(' + read + ')')
+      exit()
+
     if fita == 'X':
       cabecoteX = line[4]
       if write != '*':
@@ -121,11 +128,6 @@ class Output(object):
         self.cabecoteZ = '%s%s%s' % (cabecoteZ[0], write, cabecoteZ[2])
       return self.new_line(line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], self.cabecoteZ, line[11])
     
-    # head = self.get_cabecote(line)
-    # if read != '*' and head != read:
-    #   print('cabecoteX - Erro de Leitura!')
-    #   print('cabecoteX(' + head + ') - read(' + read + ')')
-    #   exit()
 
   def new_line(self, bloco, estado, esquerdaX, cabecoteX, direitaX, esquerdaY, cabecoteY, direitaY, esquerdaZ, cabecoteZ, direitaZ):
     bloco = '{0:>10}'.format(bloco)
@@ -160,9 +162,11 @@ class Output(object):
     self.direitaY = '{:_<10}'.format(direitaY)
     self.direitaZ = '{:_<10}'.format(direitaZ)
 
-    model = '{Bloco}.{Estado}: {esquerdaX}{cabecoteX}{direitaX} : {esquerdaY}{cabecoteY}{direitaY} : {esquerdaZ}{cabecoteZ}{direitaZ}'
-    model = model.format(Bloco=self.bloco, Estado=self.estado, esquerdaX=self.esquerdaX, cabecoteX=self.cabecoteX, direitaX=self.direitaX, esquerdaY=self.esquerdaY, cabecoteY=self.cabecoteY, direitaY=self.direitaY, esquerdaZ=self.esquerdaZ, cabecoteZ=self.cabecoteZ, direitaZ=self.direitaZ)
+    model = '{Bloco}.{Estado}: {EsquerdaX}{CabecoteX}{DireitaX} : {EsquerdaY}{CabecoteY}{DireitaY} : {EsquerdaZ}{CabecoteZ}{DireitaZ}'
+    model = model.format(Bloco=self.bloco, Estado=self.estado, EsquerdaX=self.esquerdaX, CabecoteX=self.cabecoteX, DireitaX=self.direitaX, EsquerdaY=self.esquerdaY, CabecoteY=self.cabecoteY, DireitaY=self.direitaY, EsquerdaZ=self.esquerdaZ, CabecoteZ=self.cabecoteZ, DireitaZ=self.direitaZ)
 
+    # print(model)
+    
     itens = [model,
              self.bloco,
              self.estado,
