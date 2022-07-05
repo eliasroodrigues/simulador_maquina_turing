@@ -26,8 +26,13 @@ class Output(object):
   def new_line_clear(self):
     return self.bloco + '.' + self.estado + ': ' + self.esquerdaX + self.cabecoteX + self.direitaX + ' : ' + self.esquerdaY + self.cabecoteY + self.direitaY + ' : ' + self.esquerdaZ + self.cabecoteZ + self.direitaZ
 
-  def get_cabecote(self, line):
-    char = line[4]
+  def get_cabecote(self, line, fita):
+    if fita == 'X':
+      char = line[4]
+    elif fita == 'Y':
+      char = line[7]
+    elif fita == 'Z':
+      char = line[10]
     
     return char[1]
 
@@ -102,27 +107,27 @@ class Output(object):
 
     return self.new_line(line[1], line[2], self.esquerdaX, self.cabecoteX, self.direitaX, self.esquerdaY, self.cabecoteY, self.direitaY, self.esquerdaZ, self.cabecoteZ, self.direitaZ) 
 
-  def altera_cabecote(self, line, fita, read, write):
-    head = self.get_cabecote(line)
+  def altera_cabecote(self, line, fita1, fita2, read, write):
+    head = self.get_cabecote(line, fita1)
     
-    # print(line, fita, read, write)
+    # print(f'cabecote: {head} - lendo: {fita1}/{read} - escrevendo: {fita2}/{write}')
 
     if read != '*' and head != read:
       print('cabecoteX - Erro de Leitura!')
       print('cabecoteX(' + head + ') - read(' + read + ')')
       exit()
 
-    if fita == 'X':
+    if fita2 == 'X':
       cabecoteX = line[4]
       if write != '*':
         self.cabecoteX = '%s%s%s' % (cabecoteX[0], write, cabecoteX[2])
       return self.new_line(line[1], line[2], line[3], self.cabecoteX, line[5], line[6], line[7], line[8], line[9], line[10], line[11])
-    elif fita == 'Y':
+    elif fita2 == 'Y':
       cabecoteY = line[7]
       if write != '*':
         self.cabecoteY = '%s%s%s' % (cabecoteY[0], write, cabecoteY[2])
       return self.new_line(line[1], line[2], line[3], line[4], line[5], line[6], self.cabecoteY, line[8], line[9], line[10], line[11])
-    elif fita == 'Z':
+    elif fita2 == 'Z':
       cabecoteZ = line[10]
       if write != '*':
         self.cabecoteZ = '%s%s%s' % (cabecoteZ[0], write, cabecoteZ[2])

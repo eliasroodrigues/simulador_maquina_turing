@@ -110,7 +110,7 @@ class Machine(object):
         self.cont_interacoes += 1
 
         if self.cont_interacoes == 1000:
-          return None
+          return None, None
 
         # stop the execution
         if finalizou == 'pare' or finalizou == 'aceita' or finalizou == 'rejeita':
@@ -128,7 +128,7 @@ class Machine(object):
     else:
       print('Main block not found!')
 
-    return self.lista_de_prints
+    return self.lista_de_prints, finalizou
 
   # execute block
   def exec_bloco(self, bloco, estado_atual):
@@ -144,7 +144,6 @@ class Machine(object):
 
     while True:
       instrucoes = self.get_instrucoes(bloco, self.estado_atual)
-      cabecote = self.out_line.get_cabecote(self.fitaX)
 
       if instrucoes == []:
         exit()
@@ -152,6 +151,8 @@ class Machine(object):
       for i in instrucoes:
         # <estado atual> <fita atual> <simbolo atual> <movimento atual> -- <novo estado> <nova fita> <novo simbolo> <novo movimento>
         if self.regex.aplica_regex(i) == 'comando':          
+          cabecote = self.out_line.get_cabecote(self.fitaX, i.split()[1])
+          
           aliases = []
           for cod in self.alias:
             aliases.append(cod)
@@ -179,7 +180,7 @@ class Machine(object):
             # print(cabecote, simbA, simbB)
             
             self.fitaX[2] = self.estado_atual
-            self.fitaX = self.out_line.altera_cabecote(self.fitaX, fita2, simbA, simbB)
+            self.fitaX = self.out_line.altera_cabecote(self.fitaX, fita1, fita2, simbA, simbB)
             self.lista_de_prints.append(self.fitaX[0])
             self.fitaX = self.out_line.move_cabecote(self.fitaX, fita1, move1, fita2, move2)
 

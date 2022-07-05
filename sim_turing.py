@@ -61,12 +61,13 @@ class simturing:
   # execute based on the given arguments.
   lines_file = imp_file.input_file(path_file)
 
-  prints = machine.run(palavra, head, lines_file)
+  prints, tipo = machine.run(palavra, head, lines_file)
 
   # execution modes
   if opcao == 'r':
     for p in prints:
       print(p)
+    print(tipo)
   elif opcao == 'd':
     fileD = open(log_file, 'w')
     fileD.write(opcao + '\n')
