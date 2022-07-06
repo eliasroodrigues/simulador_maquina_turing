@@ -132,6 +132,7 @@ class Machine(object):
 
   # execute block
   def exec_bloco(self, bloco, estado_atual):
+    # print(self.pilha_bloco)
     if estado_atual == '':
       self.estado_atual = bloco[1].split()[2]
     else:
@@ -141,6 +142,8 @@ class Machine(object):
     self.fitaX[2] = self.estado_atual
 
     sair = False
+
+    print(self.fitaX[0])
 
     while True:
       instrucoes = self.get_instrucoes(bloco, self.estado_atual)
@@ -192,11 +195,6 @@ class Machine(object):
           atual = i.split()[0]
           nomeBloco = i.split()[1]
           retorno = i.split()[2]
-
-          x = i.split()
-
-          if '!' in x:
-            sair = True
           
           # estado atual eh atualizado para proximo estado
           self.pilha_bloco.append([bloco[0], retorno])
@@ -209,10 +207,5 @@ class Machine(object):
             return 'retorne'
           elif comando == 'pare' or comando == 'aceita' or comando == 'rejeita':
             return comando
-
-        if sair is True:
-          for x in self.listaDePrints:
-            print(x)
-            exit()
 
     return None

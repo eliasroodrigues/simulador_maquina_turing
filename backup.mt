@@ -6,21 +6,18 @@ $s = "+-"
 
 ; checa validade da entrada
 bloco main 01
-  01 X $d i -- 02 X $d e
-  02 X * i -- 10 X < d
-  
-  ; 03 X $d i -- 10 Z < d
+  01 X $d e -- 02 X $d i
+  02 X * i -- 03 X < d
+  03 X $d i -- 10 Z < d
 
   10 valida 11
 
-  11 inicioX 20
-  
-  ; 12 inicioY 13
-  ; 13 inicioZ 20
+  11 inicioX 13
+  12 inicioY 13
+  13 inicioZ 20
 
   20 Y + i -- 21 Y + d
   20 Y - i -- 22 Y - d
-
   21 plus 40
   22 minus 40
   
@@ -30,10 +27,13 @@ fim main
 
 ; valida a entrada copiando ela pra fita Z
 bloco valida 1
-  01 X $d i -- 01 X * d
-  01 X $s i -- 04 X * i
-  01 X = i -- 02 X * d
-  02 X * i -- 05 X > i
+  01 X $d d -- 01 Z $d d
+  01 X $s i -- 04 Z $s d
+  01 X = d -- 02 Z = d
+
+  02 X * i -- 03 X > i
+  03 Z * i -- 05 Z > i
+
   04 X $s d -- 01 Y $s i
   
   05 retorne
@@ -80,7 +80,6 @@ bloco moveXigual 01
   01 X < i -- 01 X * d
   01 X $d i -- 01 X * d
   01 X $s i -- 01 X * d
-  01 X $w i -- 01 X * d
   01 X = i -- 02 X * i
   01 X * i -- 03 X * i
 
@@ -88,62 +87,41 @@ bloco moveXigual 01
   03 rejeita
 fim moveXigual
 
-; troca um numero pela letra
-bloco trocaNum 01
-  01 X 1 i -- 05 X a i
-  01 X 2 i -- 05 X b i
-  01 X 3 i -- 05 X c i
-  01 X 4 i -- 05 X d i
-  01 X 5 i -- 05 X e i
-  01 X 6 i -- 05 X f i
-  01 X 7 i -- 05 X g i
-  01 X 8 i -- 05 X h i
-  01 X 9 i -- 05 X i i
-  01 X 0 i -- 05 X j i
-  01 X * i -- 10 X * i
-
-  05 retorne
-  10 rejeita
-fim trocaNum
-
-; verifica se tem sobra na fita Z
-bloco verificaZ 01
-  01 Z $d i -- 02 Y * i
-  01 Z * i -- 05 Y * i
-
-  02 plus
-
-  05 retorne
-fim verificaZ
-
 ; move o cabecote X para procurar um numero
 bloco procuraNum 01
   01 X = i -- 01 X * e
+  01 X + i -- 01 X * e
   01 X $w i -- 01 X * e
-  01 X $s i -- 01 X * e
-  01 X $d i -- 05 X * i
-  01 X < i -- 05 X * i
-  01 X * i -- 10 X * i
+  01 X $d i -- 05 X $d i
+  01 X < i -- 05 X < i
 
   05 retorne
-  10 rejeita
 fim procuraNum
 
 ; verifica qual o numero
 bloco verificaNum 01
-  01 trocaNum 02
+  01 X 1 i -- 11 X a i
+  01 X 2 i -- 12 X b i
+  01 X 3 i -- 13 X c i
+  01 X 4 i -- 14 X d i
+  01 X 5 i -- 15 X e i
+  01 X 6 i -- 16 X f i
+  01 X 7 i -- 17 X g i
+  01 X 8 i -- 18 X h i
+  01 X 9 i -- 19 X i i
+  01 X 0 i -- 20 X j i
+  01 X * i -- 30 X * i
 
-  02 X a i -- 25 Y 1 i
-  02 X b i -- 25 Y 2 i
-  02 X c i -- 25 Y 3 i
-  02 X d i -- 25 Y 4 i
-  02 X e i -- 25 Y 5 i
-  02 X f i -- 25 Y 6 i
-  02 X g i -- 25 Y 7 i
-  02 X h i -- 25 Y 8 i
-  02 X i i -- 25 Y 9 i
-  02 X j i -- 25 Y 0 i
-  02 X * i -- 30 Y * i
+  11 X a i -- 25 Y 1 i
+  12 X b i -- 25 Y 2 i
+  13 X c i -- 25 Y 3 i
+  14 X d i -- 25 Y 4 i
+  15 X e i -- 25 Y 5 i
+  16 X f i -- 25 Y 6 i
+  17 X g i -- 25 Y 7 i
+  18 X h i -- 25 Y 8 i
+  19 X i i -- 25 Y 9 i
+  20 X j i -- 25 Y 0 i
 
   25 retorne
   30 rejeita
@@ -151,13 +129,10 @@ fim verificaNum
 
 ; move o cabecote X para o operador
 bloco moveXOp 01
-  01 X $d i -- 01 X * e
   01 X $w i -- 01 X * e
   01 X $s i -- 05 X * i
-  01 X < i -- 05 X * i
 
   05 retorne
-  10 rejeita
 fim moveXOp
 
 ; verifica qual o valor a ser somado
@@ -184,27 +159,12 @@ bloco verificaSoma 01
   19 somaNove 25
   20 somaZero 25
 
-  25 trocaNum 30
-
-  30 retorne
+  25 retorne
 fim verificaSoma
 
 ; soma o valor 1
 bloco somaUm 01
-  01 X 1 i -- 15 Y 2 i
-  01 X 2 i -- 15 Y 3 i
-  01 X 3 i -- 15 Y 4 i
-  01 X 4 i -- 15 Y 5 i
-  01 X 5 i -- 15 Y 6 i
-  01 X 6 i -- 15 Y 7 i
-  01 X 7 i -- 15 Y 8 i
-  01 X 8 i -- 15 Y 9 i
-  01 X 9 i -- 02 Y 0 d
-  01 X 0 i -- 15 Y 1 i
-
-  02 X 9 i -- 15 Y 1 i
-
-  15 retorne
+  01 X 1 i -- 11
 fim somaUm
 
 ; operacao de soma
@@ -212,21 +172,19 @@ bloco plus 01
   01 moveXigual 02
   02 procuraNum 03
 
-  03 X < i -- 20 X * i
+  03 X < i -- 15 X * i
   03 X $d i -- 04 X * i
 
   04 verificaNum 05
-  05 moveXOp 06
-  06 procuraNum 07
+  05 moveXOp 05
+  05 procuraNum 06
 
-  07 X < i -- 20 X * i
-  07 X $d i -- 08 X * i
+  06 X < i -- 15 X * i
+  06 X $d i -- 07 X * i
   
-  08 verificaSoma 01
+  07 verificaSoma 15
 
-  15 verificaZ 20
-
-  20 retorne
+  15 retorne
 fim plus
 
 ; operacao de subtracao

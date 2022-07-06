@@ -13,7 +13,7 @@ class Regex(object):
     # block declaration
     expB1 = r'^[\s|\t]*bloco\s[a-zA-Z0-9]{1,16}\s[0-9]{1,4}'
     # block call
-    expB2 = r'^[\s|\t]*[0-9]{1,4}\s([a-zA-Z]+)\s(pare|[0-9]{1,4})'
+    expB2 = r'^[\s|\t]*[0-9]{1,4}\s([a-zA-Z][a-zA-Z]+)\s(pare|[0-9]{1,4})'
     # end of block
     expB3 = r'^[\s|\t]*fim[\s|\t]*[a-zA-Z0-9]*'
     # commands
