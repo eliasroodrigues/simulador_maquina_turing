@@ -30,12 +30,21 @@ fim main
 ; valida a entrada copiando ela pra fita Z
 bloco valida 1
   01 X $d i -- 01 X * d
-  01 X $s i -- 04 X * i
-  01 X = i -- 02 X * d
-  02 X * i -- 05 X > i
-  04 X $s d -- 01 Y $s i
+  01 X $s i -- 15 X * i
+  01 X * i -- 10 X * i
+
+  15 X $s d -- 02 Y $s i
+
+  02 X $d i -- 02 X * d
+  02 X = i -- 03 X * i
+  02 X * i -- 10 X * i 
+
+  03 X = i -- 04 X * d
+  04 X * i -- 05 X > i
+
   
   05 retorne
+  10 rejeita
 fim valida
 
 ; monta a resposta
@@ -370,6 +379,286 @@ bloco somaDois 01
 
   40 retorne
 fim somaDois
+
+; soma o valor 3
+bloco somaTres 01
+  01 X 1 i -- 11 Y 4 i
+  01 X 2 i -- 12 Y 5 i
+  01 X 3 i -- 13 Y 6 i
+  01 X 4 i -- 14 Y 7 i
+  01 X 5 i -- 15 Y 8 i
+  01 X 6 i -- 16 Y 9 i
+  01 X 7 i -- 17 Y 0 i
+  01 X 8 i -- 18 Y 1 i
+  01 X 9 i -- 19 Y 2 i
+  01 X 0 i -- 20 Y 3 i
+
+  11 Z 1 i -- 31 Y 5 i
+  11 Z * i -- 30 Z * i
+  12 Z 1 i -- 31 Y 6 i
+  12 Z * i -- 30 Z * i
+  13 Z 1 i -- 31 Y 7 i
+  13 Z * i -- 30 Z * i
+  14 Z 1 i -- 31 Y 8 i
+  14 Z * i -- 30 Z * i
+  15 Z 1 i -- 31 Y 9 i
+  15 Z * i -- 30 Z * i
+  16 Z 1 i -- 30 Y 0 i
+  16 Z * i -- 30 Z * i
+  17 Z 1 i -- 30 Y 1 i
+  17 Z * i -- 30 Z 1 i
+  18 Z 1 i -- 30 Y 2 i
+  18 Z * i -- 30 Z 1 i
+  19 Z 1 i -- 30 Y 3 i
+  19 Z * i -- 30 Z 1 i
+  20 Z 1 i -- 31 Y 4 i
+  20 Z * i -- 30 Z * i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim somaTres
+
+; soma o valor 4
+bloco somaQuatro 01
+  01 X 1 i -- 11 Y 5 i
+  01 X 2 i -- 12 Y 6 i
+  01 X 3 i -- 13 Y 7 i
+  01 X 4 i -- 14 Y 8 i
+  01 X 5 i -- 15 Y 9 i
+  01 X 6 i -- 16 Y 0 i
+  01 X 7 i -- 17 Y 1 i
+  01 X 8 i -- 18 Y 2 i
+  01 X 9 i -- 19 Y 3 i
+  01 X 0 i -- 20 Y 4 i
+
+  11 Z 1 i -- 31 Y 6 i
+  11 Z * i -- 30 Z * i
+  12 Z 1 i -- 31 Y 7 i
+  12 Z * i -- 30 Z * i
+  13 Z 1 i -- 31 Y 8 i
+  13 Z * i -- 30 Z * i
+  14 Z 1 i -- 31 Y 9 i
+  14 Z * i -- 30 Z * i
+  15 Z 1 i -- 30 Y 0 i
+  15 Z * i -- 30 Z * i
+  16 Z 1 i -- 30 Y 1 i
+  16 Z * i -- 30 Z 1 i
+  17 Z 1 i -- 30 Y 2 i
+  17 Z * i -- 30 Z 1 i
+  18 Z 1 i -- 30 Y 3 i
+  18 Z * i -- 30 Z 1 i
+  19 Z 1 i -- 30 Y 4 i
+  19 Z * i -- 30 Z 1 i
+  20 Z 1 i -- 31 Y 5 i
+  20 Z * i -- 30 Z * i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim somaQuatro
+
+; soma o valor 5
+bloco somaCinco 01
+  01 X 1 i -- 11 Y 6 i
+  01 X 2 i -- 12 Y 7 i
+  01 X 3 i -- 13 Y 8 i
+  01 X 4 i -- 14 Y 9 i
+  01 X 5 i -- 15 Y 0 i
+  01 X 6 i -- 16 Y 1 i
+  01 X 7 i -- 17 Y 2 i
+  01 X 8 i -- 18 Y 3 i
+  01 X 9 i -- 19 Y 4 i
+  01 X 0 i -- 20 Y 5 i
+
+  11 Z 1 i -- 31 Y 7 i
+  11 Z * i -- 30 Z * i
+  12 Z 1 i -- 31 Y 8 i
+  12 Z * i -- 30 Z * i
+  13 Z 1 i -- 31 Y 9 i
+  13 Z * i -- 30 Z * i
+  14 Z 1 i -- 30 Y 0 i
+  14 Z * i -- 30 Z * i
+  15 Z 1 i -- 30 Y 1 i
+  15 Z * i -- 30 Z 1 i
+  16 Z 1 i -- 30 Y 2 i
+  16 Z * i -- 30 Z 1 i
+  17 Z 1 i -- 30 Y 3 i
+  17 Z * i -- 30 Z 1 i
+  18 Z 1 i -- 30 Y 4 i
+  18 Z * i -- 30 Z 1 i
+  19 Z 1 i -- 30 Y 5 i
+  19 Z * i -- 30 Z 1 i
+  20 Z 1 i -- 31 Y 6 i
+  20 Z * i -- 30 Z * i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim somaCinco
+
+; soma o valor 6
+bloco somaSeis 01
+  01 X 1 i -- 11 Y 7 i
+  01 X 2 i -- 12 Y 8 i
+  01 X 3 i -- 13 Y 9 i
+  01 X 4 i -- 14 Y 0 i
+  01 X 5 i -- 15 Y 1 i
+  01 X 6 i -- 16 Y 2 i
+  01 X 7 i -- 17 Y 3 i
+  01 X 8 i -- 18 Y 4 i
+  01 X 9 i -- 19 Y 5 i
+  01 X 0 i -- 20 Y 6 i
+
+  11 Z 1 i -- 31 Y 8 i
+  11 Z * i -- 30 Z * i
+  12 Z 1 i -- 31 Y 9 i
+  12 Z * i -- 30 Z * i
+  13 Z 1 i -- 30 Y 0 i
+  13 Z * i -- 30 Z * i
+  14 Z 1 i -- 30 Y 1 i
+  14 Z * i -- 30 Z 1 i
+  15 Z 1 i -- 30 Y 2 i
+  15 Z * i -- 30 Z 1 i
+  16 Z 1 i -- 30 Y 3 i
+  16 Z * i -- 30 Z 1 i
+  17 Z 1 i -- 30 Y 4 i
+  17 Z * i -- 30 Z 1 i
+  18 Z 1 i -- 30 Y 5 i
+  18 Z * i -- 30 Z 1 i
+  19 Z 1 i -- 30 Y 6 i
+  19 Z * i -- 30 Z 1 i
+  20 Z 1 i -- 31 Y 7 i
+  20 Z * i -- 30 Z * i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim somaSeis
+
+; soma o valor 7
+bloco somaSete 01
+  01 X 1 i -- 11 Y 8 i
+  01 X 2 i -- 12 Y 9 i
+  01 X 3 i -- 13 Y 0 i
+  01 X 4 i -- 14 Y 1 i
+  01 X 5 i -- 15 Y 2 i
+  01 X 6 i -- 16 Y 3 i
+  01 X 7 i -- 17 Y 4 i
+  01 X 8 i -- 18 Y 5 i
+  01 X 9 i -- 19 Y 6 i
+  01 X 0 i -- 20 Y 7 i
+
+  11 Z 1 i -- 31 Y 1 i
+  11 Z * i -- 30 Z * i
+  12 Z 1 i -- 30 Y 0 i
+  12 Z * i -- 30 Z * i
+  13 Z 1 i -- 30 Y 1 i
+  13 Z * i -- 30 Z 1 i
+  14 Z 1 i -- 30 Y 2 i
+  14 Z * i -- 30 Z 1 i
+  15 Z 1 i -- 30 Y 3 i
+  15 Z * i -- 30 Z 1 i
+  16 Z 1 i -- 30 Y 4 i
+  16 Z * i -- 30 Z 1 i
+  17 Z 1 i -- 30 Y 5 i
+  17 Z * i -- 30 Z 1 i
+  18 Z 1 i -- 30 Y 6 i
+  18 Z * i -- 30 Z 1 i
+  19 Z 1 i -- 30 Y 7 i
+  19 Z * i -- 30 Z 1 i
+  20 Z 1 i -- 31 Y 8 i
+  20 Z * i -- 30 Z * i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim somaSete
+
+; soma o valor 8
+bloco somaOito 01
+  01 X 1 i -- 11 Y 9 i
+  01 X 2 i -- 12 Y 0 i
+  01 X 3 i -- 13 Y 1 i
+  01 X 4 i -- 14 Y 2 i
+  01 X 5 i -- 15 Y 3 i
+  01 X 6 i -- 16 Y 4 i
+  01 X 7 i -- 17 Y 5 i
+  01 X 8 i -- 18 Y 6 i
+  01 X 9 i -- 19 Y 7 i
+  01 X 0 i -- 20 Y 8 i
+
+  11 Z 1 i -- 30 Y 0 i
+  11 Z * i -- 30 Z * i
+  12 Z 1 i -- 30 Y 1 i
+  12 Z * i -- 30 Z 1 i
+  13 Z 1 i -- 30 Y 2 i
+  13 Z * i -- 30 Z 1 i
+  14 Z 1 i -- 30 Y 3 i
+  14 Z * i -- 30 Z 1 i
+  15 Z 1 i -- 30 Y 4 i
+  15 Z * i -- 30 Z 1 i
+  16 Z 1 i -- 30 Y 5 i
+  16 Z * i -- 30 Z 1 i
+  17 Z 1 i -- 30 Y 6 i
+  17 Z * i -- 30 Z 1 i
+  18 Z 1 i -- 30 Y 7 i
+  18 Z * i -- 30 Z 1 i
+  19 Z 1 i -- 30 Y 8 i
+  19 Z * i -- 30 Z 1 i
+  20 Z 1 i -- 31 Y 9 i
+  20 Z * i -- 30 Z * i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim somaOito
+
+; soma o valor 9
+bloco somaNove 01
+  01 X 1 i -- 11 Y 0 i
+  01 X 2 i -- 12 Y 1 i
+  01 X 3 i -- 13 Y 2 i
+  01 X 4 i -- 14 Y 3 i
+  01 X 5 i -- 15 Y 4 i
+  01 X 6 i -- 16 Y 5 i
+  01 X 7 i -- 17 Y 6 i
+  01 X 8 i -- 18 Y 7 i
+  01 X 9 i -- 19 Y 8 i
+  01 X 0 i -- 20 Y 9 i
+
+  11 Z 1 i -- 30 Y 1 i
+  11 Z * i -- 30 Z 1 i
+  12 Z 1 i -- 30 Y 2 i
+  12 Z * i -- 30 Z 1 i
+  13 Z 1 i -- 30 Y 3 i
+  13 Z * i -- 30 Z 1 i
+  14 Z 1 i -- 30 Y 4 i
+  14 Z * i -- 30 Z 1 i
+  15 Z 1 i -- 30 Y 5 i
+  15 Z * i -- 30 Z 1 i
+  16 Z 1 i -- 30 Y 6 i
+  16 Z * i -- 30 Z 1 i
+  17 Z 1 i -- 30 Y 7 i
+  17 Z * i -- 30 Z 1 i
+  18 Z 1 i -- 30 Y 8 i
+  18 Z * i -- 30 Z 1 i
+  19 Z 1 i -- 30 Y 9 i
+  19 Z * i -- 30 Z 1 i
+  20 Z 1 i -- 30 Y 0 i
+  20 Z * i -- 30 Z * i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim somaNove
 ; =============================================
 
 ; =============================================
