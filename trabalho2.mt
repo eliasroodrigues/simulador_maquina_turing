@@ -220,7 +220,7 @@ bloco copiaNumY 01
   02 X h i -- 25 Y 8 i
   02 X i i -- 25 Y 9 i
   02 X j i -- 25 Y 0 i
-  02 X * i -- 30 Y * i
+  ; 02 X * i -- 30 Y * i
 
   25 retorne
   30 rejeita
@@ -665,7 +665,7 @@ fim somaNove
 ; verifica se tem algo pra somar na fita Z
 bloco somaZ 01
   01 Z 1 i -- 02 Z 1 d
-  01 Z * i -- 10 Z * i
+  01 Z * i -- 11 Z * i
 
   02 Y 1 i -- 10 Y 2 d
   02 Y 2 i -- 10 Y 3 d
@@ -679,7 +679,10 @@ bloco somaZ 01
   02 Y 0 i -- 10 Y 1 d
   02 Y * i -- 10 Y 1 d
 
-  03 Y * i -- 10 Y 1 d
+  03 Y * i -- 10 Z 1 i
+
+  11 Y $d i -- 10 Y $d d
+  11 Y * i -- 10 Y * i
 
   10 retorne
 fim somaZ
@@ -692,13 +695,14 @@ bloco verificaResto 01
   03 X $s i -- 05 X * i
   03 X $d i -- 04 X * i
 
-  04 copiaNumY 11
+  04 copiaNumY 12
+  12 somaZ 01
 
-  11 Y * i -- 02 Y * d
+  11 Y $d i -- 12 Y $d d
 
   05 inicioX 06
 
-  06 X * i -- 10 X * e
+  06 X $w i -- 10 X $w e
 
   10 retorne
 fim verificaResto
