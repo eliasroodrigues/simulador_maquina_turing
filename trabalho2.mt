@@ -1,5 +1,18 @@
-; operações aritméticas com + e -
+; =================================================================
+; Programação de expressão aritmética simples envolvendo números
+; inteiros positivos e um dos operadores - ou +.
+;
+; ENTRADA: "23 + 652 ="
+;
+; SAÍDA: caso a entrada fornecida seja válida, o programa deverá
+; explicitar o resultado do reconhecimento com ACEITA ou REJEITA.
+; Além disso, caso a entrada fornecida seja válida, deverá calcular
+; o resultado da operação e apresentar isso nas fitas X, Y, Z.
+;
+; Autor: Elias Rodrigues, IFMG, 2022.
+; =================================================================
 
+; aliases
 $w = "abcdefghij"
 $d = "1234567890"
 $s = "+-"
