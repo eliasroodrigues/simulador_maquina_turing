@@ -9,7 +9,7 @@
 ; Além disso, caso a entrada fornecida seja válida, deverá calcular
 ; o resultado da operação e apresentar isso nas fitas X, Y, Z.
 ;
-; Autor: Elias Rodrigues, IFMG, 2022.
+; Autor: Elias Rodrigues, IFMG, 2022
 ; =================================================================
 
 ; aliases
