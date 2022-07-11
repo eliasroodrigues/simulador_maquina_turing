@@ -85,6 +85,7 @@ bloco copiaXZ 01
   03 Y > i -- 03 Y > e
   03 Y $d e -- 03 Z $d d
   03 Y $s i -- 04 Y $s i
+  03 Y < i -- 04 Y < i
 
   04 Z * i -- 05 Z > i
 
@@ -109,7 +110,8 @@ fim inicio
 ; volta o cabecote da fita Z para o simbolo <
 bloco inicioZ 01
   01 Z $d i -- 01 Z $d e
-  01 Z < i -- 05 Z * i
+  01 Z $s i -- 01 Z $s e
+  01 Z < i -- 05 Z < i
 
   05 retorne
 fim inicio
@@ -760,6 +762,46 @@ fim plus
 
 ; operacao de subtracao
 bloco minus 01
+  01 verificaMaior 02
+
+  02 Z + i -- 03 Z * i
+  02 Z - i -- 04 Z * i
+  02 Z * i -- 03 Z * i
+
+  03 conserta 05
+  04 conserta 06
+
+  05 menosMais 30
+  06 menosMenos 30
+
+  30 retorne
+fim minus
+
+; conserta as fitas
+bloco conserta 01
+  01 X < i -- 01 X < d
+  01 X a i -- 01 X 1 d
+  01 X b i -- 01 X 2 d
+  01 X c i -- 01 X 3 d
+  01 X d i -- 01 X 4 d
+  01 X e i -- 01 X 5 d
+  01 X f i -- 01 X 6 d
+  01 X g i -- 01 X 7 d
+  01 X h i -- 01 X 8 d
+  01 X i i -- 01 X 9 d
+  01 X j i -- 01 X 0 d
+  01 X $s i -- 01 X $s d
+  01 X = i -- 02 X = i
+
+  02 Y $d i -- 03 Y < d
+
+  03 inicioX 05
+
+  05 retorne
+fim conserta
+
+; lado esquerdo é maior ou igual oa lado direito
+bloco menosMais 01
   01 moveXigual 02
   02 findNumOp 03
 
@@ -780,7 +822,138 @@ bloco minus 01
   20 restoMinus 30
 
   30 retorne
-fim minus
+fim menosMais
+
+; lado esquerdo é menor que o lado direito
+bloco menosMenos 01
+  01 moveXigual 02
+  02 findNumOp 03
+
+  03 X $s i -- 06 X * i
+  03 X $d i -- 04 X * i
+
+  04 copiaNumY 05
+  05 moveXOp 06
+  06 findNumMenor 07
+
+  07 X < i -- 15 X * i
+  07 X $d i -- 08 X * i
+
+  08 verificaMenos 01
+
+  15 subtraiZ 20
+
+  20 restoMinus 30
+
+  30 retorne
+fim menosMenos
+
+; verifica qual lado é maior
+bloco verificaMaior 01
+  01 moveXigual 02
+  02 findNumOp 03
+
+  03 X $s i -- 05 X * i
+  03 X $d i -- 04 Y $d i
+
+  04 copiaNumY 05
+  05 moveXOp 06
+  06 findNumMenor 07
+
+  07 X < i -- 09 X < i
+  07 X $d i -- 08 X $d i
+
+  08 diferenca 01
+
+  09 Y $d i -- 10 Z - i
+  09 Y * i -- 10 Y 1 i
+
+  10 retorne
+fim verificaMaior
+
+; qual valor é maior
+bloco diferenca 01
+  01 Y 1 i -- 11 Y 1 d
+  01 Y 2 i -- 12 Y 2 d
+  01 Y 3 i -- 13 Y 3 d
+  01 Y 4 i -- 14 Y 4 d
+  01 Y 5 i -- 15 Y 5 d
+  01 Y 6 i -- 16 Y 6 d
+  01 Y 7 i -- 17 Y 7 d
+  01 Y 8 i -- 18 Y 8 d
+  01 Y 9 i -- 19 Y 9 d
+  01 Y 0 i -- 20 Y 0 d
+  01 Y * i -- 25 Z + i
+
+  11 X 0 i -- 25 Z - i
+  11 X 1 i -- 25 Z * i
+  11 X * i -- 25 Z + i
+  12 X 0 i -- 25 Z - i
+  12 X 1 i -- 25 Z - i
+  12 X 2 i -- 25 Z * i
+  12 X * i -- 25 Z + i
+  13 X 0 i -- 25 Z - i
+  13 X 1 i -- 25 Z - i
+  13 X 2 i -- 25 Z - i
+  13 X 3 i -- 25 Z * i
+  13 X * i -- 25 Z + i
+  14 X 0 i -- 25 Z - i
+  14 X 1 i -- 25 Z - i
+  14 X 2 i -- 25 Z - i
+  14 X 3 i -- 25 Z - i
+  14 X 4 i -- 25 Z * i
+  14 X * i -- 25 Z + i
+  15 X 0 i -- 25 Z - i
+  15 X 1 i -- 25 Z - i
+  15 X 2 i -- 25 Z - i
+  15 X 3 i -- 25 Z - i
+  15 X 4 i -- 25 Z - i
+  15 X 5 i -- 25 Z * i
+  15 X * i -- 25 Z + i
+  16 X 0 i -- 25 Z - i
+  16 X 1 i -- 25 Z - i
+  16 X 2 i -- 25 Z - i
+  16 X 3 i -- 25 Z - i
+  16 X 4 i -- 25 Z - i
+  16 X 5 i -- 25 Z - i
+  16 X 6 i -- 25 Z * i
+  16 X * i -- 25 Z + i
+  17 X 0 i -- 25 Z - i
+  17 X 1 i -- 25 Z - i
+  17 X 2 i -- 25 Z - i
+  17 X 3 i -- 25 Z - i
+  17 X 4 i -- 25 Z - i
+  17 X 5 i -- 25 Z - i
+  17 X 6 i -- 25 Z - i
+  17 X 7 i -- 25 Z * i
+  17 X * i -- 25 Z + i
+  18 X 0 i -- 25 Z - i
+  18 X 1 i -- 25 Z - i
+  18 X 2 i -- 25 Z - i
+  18 X 3 i -- 25 Z - i
+  18 X 4 i -- 25 Z - i
+  18 X 5 i -- 25 Z - i
+  18 X 6 i -- 25 Z - i
+  18 X 7 i -- 25 Z - i
+  18 X 8 i -- 25 Z * i
+  18 X * i -- 25 Z + i
+  19 X 0 i -- 25 Z - i
+  19 X 1 i -- 25 Z - i
+  19 X 2 i -- 25 Z - i
+  19 X 3 i -- 25 Z - i
+  19 X 4 i -- 25 Z - i
+  19 X 5 i -- 25 Z - i
+  19 X 6 i -- 25 Z - i
+  19 X 7 i -- 25 Z - i
+  19 X 8 i -- 25 Z - i
+  19 X 9 i -- 25 Z * i
+  19 X * i -- 25 Z + i
+  20 X * i -- 25 Z * i
+
+  25 trocaNum 30
+
+  30 retorne
+fim diferenca
 ; =================================================================
 
 ; =================================================================
