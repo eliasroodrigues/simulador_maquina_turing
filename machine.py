@@ -143,7 +143,7 @@ class Machine(object):
 
     sair = False
 
-    print(self.fitaX[0])
+    # print(self.fitaX[0])
 
     while True:
       instrucoes = self.get_instrucoes(bloco, self.estado_atual)

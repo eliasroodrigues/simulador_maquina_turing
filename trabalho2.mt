@@ -707,7 +707,7 @@ bloco restoPlus 01
   03 X $d i -- 04 X * i
 
   04 copiaNumY 12
-  12 subtraiZ 01
+  12 somaZ 01
 
   05 inicioX 06
 
