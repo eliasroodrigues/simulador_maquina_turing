@@ -57,6 +57,12 @@ class simturing:
   if palavra == '':
     print('No entry given...')
     exit()
+
+  new_palavra = []
+  for word in palavra:
+    if word != ' ':
+      new_palavra.append(word)
+  palavra = ''.join(new_palavra)
   
   # execute based on the given arguments.
   lines_file = imp_file.input_file(path_file)

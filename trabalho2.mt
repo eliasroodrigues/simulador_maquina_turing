@@ -4,10 +4,11 @@ $w = "abcdefghij"
 $d = "1234567890"
 $s = "+-"
 
-; =============================================
-; checa validade da entrada
+; =================================================================
+; executa a operação
 bloco main 01
   01 X $d i -- 02 X $d e
+  01 X * i -- 50 X * i
   02 X * i -- 03 X < i
   03 X < d -- 10 Z < d
   
@@ -26,8 +27,10 @@ bloco main 01
   40 aceita
   50 rejeita
 fim main
+; =================================================================
 
-; valida a entrada copiando ela pra fita Z
+; =================================================================
+; valida a entrada da fita X e copia o operador para a fita Y
 bloco valida 1
   01 X $d i -- 01 X * d
   01 X $s i -- 15 X * i
@@ -62,7 +65,7 @@ bloco monta 01
   15 retorne
 fim monta
 
-; copia a entrada da fita X para Z
+; copia a entrada da fita X e o resultado da fita Y para a fita Z
 bloco copiaXZ 01
   01 X < d -- 02 Z < d
 
@@ -87,10 +90,10 @@ bloco copiaXZ 01
 
   05 retorne
 fim copiaXZ
-; =============================================
+; =================================================================
 
-; =============================================
-; volta o cabecote da fita X para o inicio
+; =================================================================
+; volta o cabecote da fita X para o simbolo <
 bloco inicioX 01
   01 X > i -- 01 X * e
   01 X = i -- 01 X * e
@@ -103,29 +106,14 @@ bloco inicioX 01
   05 retorne
 fim inicio
 
-; volta o cabecote da fita Y para o inicio
-bloco inicioY 01
-  01 Y > i -- 01 Y * e
-  01 Y = i -- 01 Y * e
-  01 Y $d i -- 01 Y $d e
-  01 Y $w i -- 01 Y $w e
-  01 Y $s i -- 01 Y $s e
-  01 Y < i -- 05 Y * d
-  01 Y * i -- 05 Y * i
-
-  05 retorne
-fim inicio
-
-; volta o cabecote da fita Z para o inicio
+; volta o cabecote da fita Z para o simbolo <
 bloco inicioZ 01
   01 Z $d i -- 01 Z $d e
   01 Z < i -- 05 Z * i
 
   05 retorne
 fim inicio
-; =============================================
 
-; =============================================
 ; move o cabecote X para o simbolo =
 bloco moveXigual 01
   01 X < i -- 01 X * d
@@ -147,9 +135,9 @@ bloco moveXOp 01
 
   05 retorne
 fim moveXOp
-; =============================================
+; =================================================================
 
-; =============================================
+; =================================================================
 ; troca um numero pela letra
 bloco trocaNum 01
   01 X 1 i -- 05 X a i
@@ -167,9 +155,9 @@ bloco trocaNum 01
   05 retorne
   10 rejeita
 fim trocaNum
-; =============================================
+; =================================================================
 
-; =============================================
+; =================================================================
 ; verifica se tem sobra na fita Z
 bloco verificaZ 01
   01 Z $d i -- 05 Y $d d
@@ -177,10 +165,10 @@ bloco verificaZ 01
 
   05 retorne
 fim verificaZ
-; =============================================
+; =================================================================
 
-; =============================================
-; move o cabecote X para procurar um numero ate o operador
+; =================================================================
+; move o cabecote X para procurar um numero do = ate o operador
 bloco findNumOp 01
   01 X = i -- 01 X * e
   01 X $w i -- 01 X * e
@@ -192,7 +180,7 @@ bloco findNumOp 01
   10 rejeita
 fim findNumOp
 
-; move o cabecote X para procurar um numero ate o <
+; move o cabecote X para procurar um numero do operador ate o <
 bloco findNumMenor 01
   01 X $s i -- 01 X * e
   01 X $w i -- 01 X * e
@@ -203,10 +191,10 @@ bloco findNumMenor 01
   05 retorne
   10 rejeita
 fim findNumMenor
-; =============================================
+; =================================================================
 
-; =============================================
-; copia o numero para a fita Y
+; =================================================================
+; copia o numero do cabeçote da fita X para a fita Y
 bloco copiaNumY 01
   01 trocaNum 02
 
@@ -220,14 +208,12 @@ bloco copiaNumY 01
   02 X h i -- 25 Y 8 i
   02 X i i -- 25 Y 9 i
   02 X j i -- 25 Y 0 i
-  ; 02 X * i -- 30 Y * i
 
   25 retorne
-  30 rejeita
 fim copiaNumY
-; =============================================
+; =================================================================
 
-; =============================================
+; =================================================================
 ; verifica qual o valor a ser somado
 bloco verificaSoma 01
   01 Y 1 i -- 11 Y * i
@@ -257,9 +243,7 @@ bloco verificaSoma 01
 
   30 retorne
 fim verificaSoma
-; =============================================
 
-; =============================================
 ; soma o valor 0
 bloco somaZero 01
   01 X 1 i -- 11 Y 1 i
@@ -659,9 +643,9 @@ bloco somaNove 01
 
   40 retorne
 fim somaNove
-; =============================================
+; =================================================================
 
-; =============================================
+; =================================================================
 ; verifica se tem algo pra somar na fita Z
 bloco somaZ 01
   01 Z 1 i -- 02 Z 1 d
@@ -687,8 +671,33 @@ bloco somaZ 01
   10 retorne
 fim somaZ
 
+; verifica se tem algo pra subtrair na fita Z
+bloco subtraiZ 01
+  01 Z 1 i -- 02 Z 1 d
+  01 Z * i -- 11 Z * i
+
+  02 Y 1 i -- 10 Y 0 d
+  02 Y 2 i -- 10 Y 1 d
+  02 Y 3 i -- 10 Y 2 d
+  02 Y 4 i -- 10 Y 3 d
+  02 Y 5 i -- 10 Y 4 d
+  02 Y 6 i -- 10 Y 5 d
+  02 Y 7 i -- 10 Y 6 d
+  02 Y 8 i -- 10 Y 7 d
+  02 Y 9 i -- 10 Y 8 d
+  02 Y 0 i -- 03 Y 9 d
+  02 Y * i -- 10 Y 1 d
+
+  03 Y * i -- 10 Z 1 i
+
+  11 Y $d i -- 10 Y $d d
+  11 Y * i -- 10 Y * i
+
+  10 retorne
+fim subtraiZ
+
 ; verifica se tem mais numeros do lado direito do operador
-bloco verificaResto 01
+bloco restoPlus 01
   01 moveXigual 02
   02 findNumOp 03
   
@@ -696,19 +705,35 @@ bloco verificaResto 01
   03 X $d i -- 04 X * i
 
   04 copiaNumY 12
-  12 somaZ 01
-
-  11 Y $d i -- 12 Y $d d
+  12 subtraiZ 01
 
   05 inicioX 06
 
   06 X $w i -- 10 X $w e
 
   10 retorne
-fim verificaResto
-; =============================================
+fim restoPlus
 
-; =============================================
+; verifica se tem mais numeros do lado direito do operador
+bloco restoMinus 01
+  01 moveXigual 02
+  02 findNumOp 03
+  
+  03 X $s i -- 05 X * i
+  03 X $d i -- 04 X * i
+
+  04 copiaNumY 12
+  12 subtraiZ 01
+
+  05 inicioX 06
+
+  06 X $w i -- 10 X $w e
+
+  10 retorne
+fim restoMinus
+; =================================================================
+
+; =================================================================
 ; operacao de soma
 bloco plus 01
   01 moveXigual 02
@@ -728,15 +753,464 @@ bloco plus 01
 
   15 somaZ 20
 
-  20 verificaResto 30
+  20 restoPlus 30
 
   30 retorne
 fim plus
-; =============================================
 
-; =============================================
 ; operacao de subtracao
 bloco minus 01
-  01 retorne
+  01 moveXigual 02
+  02 findNumOp 03
+
+  03 X $s i -- 06 X * i
+  03 X $d i -- 04 X * i
+
+  04 copiaNumY 05
+  05 moveXOp 06
+  06 findNumMenor 07
+
+  07 X < i -- 15 X * i
+  07 X $d i -- 08 X * i
+
+  08 verificaMenos 01
+
+  15 subtraiZ 20
+
+  20 restoMinus 30
+
+  30 retorne
 fim minus
-; =============================================
+; =================================================================
+
+; =================================================================
+; verifica o valor a ser subtraído
+bloco verificaMenos 01
+  01 Y 1 i -- 11 Y * i
+  01 Y 2 i -- 12 Y * i
+  01 Y 3 i -- 13 Y * i
+  01 Y 4 i -- 14 Y * i
+  01 Y 5 i -- 15 Y * i
+  01 Y 6 i -- 16 Y * i
+  01 Y 7 i -- 17 Y * i
+  01 Y 8 i -- 18 Y * i
+  01 Y 9 i -- 19 Y * i
+  01 Y 0 i -- 20 Y * i
+  01 Y * i -- 20 Y * i
+
+  11 menosUm 25
+  12 menosDois 25
+  13 menosTres 25
+  14 menosQuatro 25
+  15 menosCinco 25
+  16 menosSeis 25
+  17 menosSete 25
+  18 menosOito 25
+  19 menosNove 25
+  20 menosZero 25
+
+  25 trocaNum 30
+
+  30 retorne
+fim verificaMenos
+
+; subtrai o valor 0
+bloco menosZero 01
+  01 X 1 i -- 11 Y 1 i
+  01 X 2 i -- 12 Y 2 i
+  01 X 3 i -- 13 Y 3 i
+  01 X 4 i -- 14 Y 4 i
+  01 X 5 i -- 15 Y 5 i
+  01 X 6 i -- 16 Y 6 i
+  01 X 7 i -- 17 Y 7 i
+  01 X 8 i -- 18 Y 8 i
+  01 X 9 i -- 19 Y 9 i
+  01 X 0 i -- 20 Y 0 i
+
+  11 Z 1 i -- 31 Y 0 i
+  11 Z * i -- 30 Z * i
+  12 Z 1 i -- 31 Y 1 i
+  12 Z * i -- 30 Z * i
+  13 Z 1 i -- 31 Y 2 i
+  13 Z * i -- 30 Z * i
+  14 Z 1 i -- 31 Y 3 i
+  14 Z * i -- 30 Z * i
+  15 Z 1 i -- 31 Y 4 i
+  15 Z * i -- 30 Z * i
+  16 Z 1 i -- 31 Y 5 i
+  16 Z * i -- 30 Z * i
+  17 Z 1 i -- 31 Y 6 i
+  17 Z * i -- 30 Z * i
+  18 Z 1 i -- 31 Y 7 i
+  18 Z * i -- 30 Z * i
+  19 Z 1 i -- 31 Y 8 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 9 i
+  20 Z * i -- 30 Z * i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosZero
+
+; subtrai o valor 1
+bloco menosUm 01
+  01 X 1 i -- 11 Y 0 i
+  01 X 2 i -- 12 Y 1 i
+  01 X 3 i -- 13 Y 2 i
+  01 X 4 i -- 14 Y 3 i
+  01 X 5 i -- 15 Y 4 i
+  01 X 6 i -- 16 Y 5 i
+  01 X 7 i -- 17 Y 6 i
+  01 X 8 i -- 18 Y 7 i
+  01 X 9 i -- 19 Y 8 i
+  01 X 0 i -- 20 Y 9 i
+
+  11 Z 1 i -- 30 Y 9 i
+  11 Z * i -- 30 Z * i
+  12 Z 1 i -- 31 Y 0 i
+  12 Z * i -- 30 Z * i
+  13 Z 1 i -- 31 Y 1 i
+  13 Z * i -- 30 Z * i
+  14 Z 1 i -- 31 Y 2 i
+  14 Z * i -- 30 Z * i
+  15 Z 1 i -- 31 Y 3 i
+  15 Z * i -- 30 Z * i
+  16 Z 1 i -- 31 Y 4 i
+  16 Z * i -- 30 Z * i
+  17 Z 1 i -- 31 Y 5 i
+  17 Z * i -- 30 Z * i
+  18 Z 1 i -- 31 Y 6 i
+  18 Z * i -- 30 Z * i
+  19 Z 1 i -- 31 Y 7 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 8 i
+  20 Z * i -- 30 Z 1 i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosUm
+
+; subtrai o valor 2
+bloco menosDois 01
+  01 X 1 i -- 11 Y 9 i
+  01 X 2 i -- 12 Y 0 i
+  01 X 3 i -- 13 Y 1 i
+  01 X 4 i -- 14 Y 2 i
+  01 X 5 i -- 15 Y 3 i
+  01 X 6 i -- 16 Y 4 i
+  01 X 7 i -- 17 Y 5 i
+  01 X 8 i -- 18 Y 6 i
+  01 X 9 i -- 19 Y 7 i
+  01 X 0 i -- 20 Y 8 i
+
+  11 Z 1 i -- 30 Y 8 i
+  11 Z * i -- 30 Z 1 i
+  12 Z 1 i -- 30 Y 9 i
+  12 Z * i -- 30 Z * i
+  13 Z 1 i -- 31 Y 0 i
+  13 Z * i -- 30 Z * i
+  14 Z 1 i -- 31 Y 1 i
+  14 Z * i -- 30 Z * i
+  15 Z 1 i -- 31 Y 2 i
+  15 Z * i -- 30 Z * i
+  16 Z 1 i -- 31 Y 3 i
+  16 Z * i -- 30 Z * i
+  17 Z 1 i -- 31 Y 4 i
+  17 Z * i -- 30 Z * i
+  18 Z 1 i -- 31 Y 5 i
+  18 Z * i -- 30 Z * i
+  19 Z 1 i -- 31 Y 6 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 7 i
+  20 Z * i -- 30 Z 1 i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosDois
+
+; subtrai o valor 3
+bloco menosTres 01
+  01 X 1 i -- 11 Y 8 i
+  01 X 2 i -- 12 Y 9 i
+  01 X 3 i -- 13 Y 0 i
+  01 X 4 i -- 14 Y 1 i
+  01 X 5 i -- 15 Y 2 i
+  01 X 6 i -- 16 Y 3 i
+  01 X 7 i -- 17 Y 4 i
+  01 X 8 i -- 18 Y 5 i
+  01 X 9 i -- 19 Y 6 i
+  01 X 0 i -- 20 Y 7 i
+
+  11 Z 1 i -- 30 Y 7 i
+  11 Z * i -- 30 Z 1 i
+  12 Z 1 i -- 30 Y 8 i
+  12 Z * i -- 30 Z 1 i
+  13 Z 1 i -- 30 Y 9 i
+  13 Z * i -- 30 Z * i
+  14 Z 1 i -- 31 Y 0 i
+  14 Z * i -- 30 Z * i
+  15 Z 1 i -- 31 Y 1 i
+  15 Z * i -- 30 Z * i
+  16 Z 1 i -- 31 Y 2 i
+  16 Z * i -- 30 Z * i
+  17 Z 1 i -- 31 Y 3 i
+  17 Z * i -- 30 Z * i
+  18 Z 1 i -- 31 Y 4 i
+  18 Z * i -- 30 Z * i
+  19 Z 1 i -- 31 Y 5 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 6 i
+  20 Z * i -- 30 Z 1 i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosTres
+
+; subtrai o valor 4
+bloco menosQuatro 01
+  01 X 1 i -- 11 Y 7 i
+  01 X 2 i -- 12 Y 8 i
+  01 X 3 i -- 13 Y 9 i
+  01 X 4 i -- 14 Y 0 i
+  01 X 5 i -- 15 Y 1 i
+  01 X 6 i -- 16 Y 2 i
+  01 X 7 i -- 17 Y 3 i
+  01 X 8 i -- 18 Y 4 i
+  01 X 9 i -- 19 Y 5 i
+  01 X 0 i -- 20 Y 6 i
+
+  11 Z 1 i -- 30 Y 6 i
+  11 Z * i -- 30 Z 1 i
+  12 Z 1 i -- 30 Y 7 i
+  12 Z * i -- 30 Z 1 i
+  13 Z 1 i -- 30 Y 8 i
+  13 Z * i -- 30 Z 1 i
+  14 Z 1 i -- 30 Y 9 i
+  14 Z * i -- 30 Z * i
+  15 Z 1 i -- 31 Y 0 i
+  15 Z * i -- 30 Z * i
+  16 Z 1 i -- 31 Y 1 i
+  16 Z * i -- 30 Z * i
+  17 Z 1 i -- 31 Y 2 i
+  17 Z * i -- 30 Z * i
+  18 Z 1 i -- 31 Y 3 i
+  18 Z * i -- 30 Z * i
+  19 Z 1 i -- 31 Y 4 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 5 i
+  20 Z * i -- 30 Z 1 i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosQuatro
+
+; subtrai o valor 5
+bloco menosCinco 01
+  01 X 1 i -- 11 Y 6 i
+  01 X 2 i -- 12 Y 7 i
+  01 X 3 i -- 13 Y 8 i
+  01 X 4 i -- 14 Y 9 i
+  01 X 5 i -- 15 Y 0 i
+  01 X 6 i -- 16 Y 1 i
+  01 X 7 i -- 17 Y 2 i
+  01 X 8 i -- 18 Y 3 i
+  01 X 9 i -- 19 Y 4 i
+  01 X 0 i -- 20 Y 5 i
+
+  11 Z 1 i -- 30 Y 5 i
+  11 Z * i -- 30 Z 1 i
+  12 Z 1 i -- 30 Y 6 i
+  12 Z * i -- 30 Z 1 i
+  13 Z 1 i -- 30 Y 7 i
+  13 Z * i -- 30 Z 1 i
+  14 Z 1 i -- 30 Y 8 i
+  14 Z * i -- 30 Z 1 i
+  15 Z 1 i -- 30 Y 9 i
+  15 Z * i -- 30 Z * i
+  16 Z 1 i -- 31 Y 0 i
+  16 Z * i -- 30 Z * i
+  17 Z 1 i -- 31 Y 1 i
+  17 Z * i -- 30 Z * i
+  18 Z 1 i -- 31 Y 2 i
+  18 Z * i -- 30 Z * i
+  19 Z 1 i -- 31 Y 3 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 4 i
+  20 Z * i -- 30 Z 1 i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosCinco
+
+; subtrai o valor 6
+bloco menosSeis 01
+  01 X 1 i -- 11 Y 5 i
+  01 X 2 i -- 12 Y 6 i
+  01 X 3 i -- 13 Y 7 i
+  01 X 4 i -- 14 Y 8 i
+  01 X 5 i -- 15 Y 9 i
+  01 X 6 i -- 16 Y 0 i
+  01 X 7 i -- 17 Y 1 i
+  01 X 8 i -- 18 Y 2 i
+  01 X 9 i -- 19 Y 3 i
+  01 X 0 i -- 20 Y 4 i
+
+  11 Z 1 i -- 30 Y 4 i
+  11 Z * i -- 30 Z 1 i
+  12 Z 1 i -- 30 Y 5 i
+  12 Z * i -- 30 Z 1 i
+  13 Z 1 i -- 30 Y 6 i
+  13 Z * i -- 30 Z 1 i
+  14 Z 1 i -- 30 Y 7 i
+  14 Z * i -- 30 Z 1 i
+  15 Z 1 i -- 30 Y 8 i
+  15 Z * i -- 30 Z 1 i
+  16 Z 1 i -- 30 Y 9 i
+  16 Z * i -- 30 Z * i
+  17 Z 1 i -- 31 Y 0 i
+  17 Z * i -- 30 Z * i
+  18 Z 1 i -- 31 Y 1 i
+  18 Z * i -- 30 Z * i
+  19 Z 1 i -- 31 Y 2 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 3 i
+  20 Z * i -- 30 Z 1 i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosSeis
+
+; subtrai o valor 7
+bloco menosSete 01
+  01 X 1 i -- 11 Y 4 i
+  01 X 2 i -- 12 Y 5 i
+  01 X 3 i -- 13 Y 6 i
+  01 X 4 i -- 14 Y 7 i
+  01 X 5 i -- 15 Y 8 i
+  01 X 6 i -- 16 Y 9 i
+  01 X 7 i -- 17 Y 0 i
+  01 X 8 i -- 18 Y 1 i
+  01 X 9 i -- 19 Y 2 i
+  01 X 0 i -- 20 Y 3 i
+
+  11 Z 1 i -- 30 Y 3 i
+  11 Z * i -- 30 Z 1 i
+  12 Z 1 i -- 30 Y 4 i
+  12 Z * i -- 30 Z 1 i
+  13 Z 1 i -- 30 Y 5 i
+  13 Z * i -- 30 Z 1 i
+  14 Z 1 i -- 30 Y 6 i
+  14 Z * i -- 30 Z 1 i
+  15 Z 1 i -- 30 Y 7 i
+  15 Z * i -- 30 Z 1 i
+  16 Z 1 i -- 30 Y 8 i
+  16 Z * i -- 30 Z 1 i
+  17 Z 1 i -- 30 Y 9 i
+  17 Z * i -- 30 Z * i
+  18 Z 1 i -- 31 Y 0 i
+  18 Z * i -- 30 Z * i
+  19 Z 1 i -- 31 Y 1 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 2 i
+  20 Z * i -- 30 Z 1 i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosSete
+
+; subtrai o valor 8
+bloco menosOito 01
+  01 X 1 i -- 11 Y 3 i
+  01 X 2 i -- 12 Y 4 i
+  01 X 3 i -- 13 Y 5 i
+  01 X 4 i -- 14 Y 6 i
+  01 X 5 i -- 15 Y 7 i
+  01 X 6 i -- 16 Y 8 i
+  01 X 7 i -- 17 Y 9 i
+  01 X 8 i -- 18 Y 0 i
+  01 X 9 i -- 19 Y 1 i
+  01 X 0 i -- 20 Y 2 i
+
+  11 Z 1 i -- 30 Y 2 i
+  11 Z * i -- 30 Z 1 i
+  12 Z 1 i -- 30 Y 3 i
+  12 Z * i -- 30 Z 1 i
+  13 Z 1 i -- 30 Y 4 i
+  13 Z * i -- 30 Z 1 i
+  14 Z 1 i -- 30 Y 5 i
+  14 Z * i -- 30 Z 1 i
+  15 Z 1 i -- 30 Y 6 i
+  15 Z * i -- 30 Z 1 i
+  16 Z 1 i -- 30 Y 7 i
+  16 Z * i -- 30 Z 1 i
+  17 Z 1 i -- 30 Y 8 i
+  17 Z * i -- 30 Z 1 i
+  18 Z 1 i -- 30 Y 9 i
+  18 Z * i -- 30 Z * i
+  19 Z 1 i -- 31 Y 0 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 1 i
+  20 Z * i -- 30 Z 1 i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosOito
+
+; subtrai o valor 9
+bloco menosNove 01
+  01 X 1 i -- 11 Y 2 i
+  01 X 2 i -- 12 Y 3 i
+  01 X 3 i -- 13 Y 4 i
+  01 X 4 i -- 14 Y 5 i
+  01 X 5 i -- 15 Y 6 i
+  01 X 6 i -- 16 Y 7 i
+  01 X 7 i -- 17 Y 8 i
+  01 X 8 i -- 18 Y 9 i
+  01 X 9 i -- 19 Y 0 i
+  01 X 0 i -- 20 Y 1 i
+
+  11 Z 1 i -- 30 Y 1 i
+  11 Z * i -- 30 Z 1 i
+  12 Z 1 i -- 30 Y 2 i
+  12 Z * i -- 30 Z 1 i
+  13 Z 1 i -- 30 Y 3 i
+  13 Z * i -- 30 Z 1 i
+  14 Z 1 i -- 30 Y 4 i
+  14 Z * i -- 30 Z 1 i
+  15 Z 1 i -- 30 Y 5 i
+  15 Z * i -- 30 Z 1 i
+  16 Z 1 i -- 30 Y 6 i
+  16 Z * i -- 30 Z 1 i
+  17 Z 1 i -- 30 Y 7 i
+  17 Z * i -- 30 Z 1 i
+  18 Z 1 i -- 30 Y 8 i
+  18 Z * i -- 30 Z 1 i
+  19 Z 1 i -- 30 Y 9 i
+  19 Z * i -- 30 Z * i
+  20 Z 1 i -- 30 Y 0 i
+  20 Z * i -- 30 Z 1 i
+
+  30 Y $d i -- 40 Y $d d
+  31 Z 1 i -- 30 Z 1 d
+
+  40 retorne
+fim menosNove
+; =================================================================
