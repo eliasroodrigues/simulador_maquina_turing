@@ -45,7 +45,6 @@ bloco valida 1
   03 X = i -- 04 X * d
   04 X * i -- 05 X > i
 
-  
   05 retorne
   10 rejeita
 fim valida
@@ -84,7 +83,8 @@ bloco copiaXZ 01
 
   03 Y > i -- 03 Y > e
   03 Y $d e -- 03 Z $d d
-  03 Y $s i -- 04 Y $s i
+  03 Y - e -- 03 Z - d
+  03 Y + i -- 04 Y + i
   03 Y < i -- 04 Y < i
 
   04 Z * i -- 05 Z > i
@@ -772,7 +772,9 @@ bloco minus 01
   04 conserta 06
 
   05 menosMais 30
-  06 menosMenos 30
+  06 menosMenos 07
+
+  07 Y * i -- 30 Y - d
 
   30 retorne
 fim minus
@@ -791,6 +793,7 @@ bloco conserta 01
   01 X i i -- 01 X 9 d
   01 X j i -- 01 X 0 d
   01 X $s i -- 01 X $s d
+  01 X $d i -- 01 X $d d
   01 X = i -- 02 X = i
 
   02 Y $d i -- 03 Y < d
@@ -824,22 +827,33 @@ bloco menosMais 01
   30 retorne
 fim menosMais
 
+; move X ate o operador
+bloco moveXoperador 01
+  01 X $d i -- 01 X $d d
+  01 X $w i -- 01 X $w d
+  01 X $s i -- 05 X $s i
+
+  05 retorne
+fim moveXoperador
+
 ; lado esquerdo é menor que o lado direito
 bloco menosMenos 01
-  01 moveXigual 02
-  02 findNumOp 03
+  01 moveXoperador 02
+  02 findNumMenor 03
 
-  03 X $s i -- 06 X * i
+  03 X < i -- 05 X * i
   03 X $d i -- 04 X * i
 
   04 copiaNumY 05
-  05 moveXOp 06
-  06 findNumMenor 07
+  05 moveXigual 06
+  06 findNumOp 07
 
-  07 X < i -- 15 X * i
+  07 X $s i -- 15 X * i
   07 X $d i -- 08 X * i
 
-  08 verificaMenos 01
+  08 verificaMenos 09
+
+  09 inicioX 01
 
   15 subtraiZ 20
 
